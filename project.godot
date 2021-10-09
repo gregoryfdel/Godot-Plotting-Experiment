@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/MathPlot/Components/BoardPoint.gd"
 }, {
+"base": "Node2D",
+"class": "BoardString",
+"language": "GDScript",
+"path": "res://scripts/MathPlot/Components/BoardString.gd"
+}, {
 "base": "ColorRect",
 "class": "MathBoard",
 "language": "GDScript",
@@ -39,6 +44,7 @@ _global_script_class_icons={
 "BoardLine": "",
 "BoardPath": "",
 "BoardPoint": "",
+"BoardString": "",
 "MathBoard": ""
 }
 

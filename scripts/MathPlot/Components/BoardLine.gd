@@ -56,6 +56,12 @@ func transition_pts(new_start_pt: Vector2, new_end_pt: Vector2, duration: float,
 	for tween in tween_list:
 		tween.start()
 
+func get_start():
+	return pt_holder['start']
+
+func get_end():
+	return pt_holder['end']
+
 func _draw():
 	if (pt_holder['start'] != null) and (pt_holder['end'] != null):
 		var start: Vector2 = pt_holder['start'].get_position()

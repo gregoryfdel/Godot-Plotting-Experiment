@@ -71,3 +71,13 @@ text = "Add Grid"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AddText" type="Button" parent="Background"]
+margin_left = 44.0
+margin_top = 386.0
+margin_right = 159.0
+margin_bottom = 450.0
+text = "Add Text"
+__meta__ = {
+"_edit_use_anchors_": false
+}

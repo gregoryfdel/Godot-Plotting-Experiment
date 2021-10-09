@@ -10,6 +10,8 @@ var board_size := Vector2.ZERO
 var draw_plots := {}
 var grid_node = null
 
+signal board_updated
+
 func _ready():
 	var start_size = self.rect_size
 	self.set_size(start_size)
@@ -22,6 +24,7 @@ func set_size(input_size: Vector2, keep_margins: bool=false) -> void:
 	scale_inverse = scale.affine_inverse()
 
 func set_extents(bottom_left: Vector2, top_right: Vector2):
+	
 	board_extents[0] = bottom_left
 	board_extents[1] = top_right
 	var cur_size = self.rect_size
@@ -31,10 +34,13 @@ func set_extents(bottom_left: Vector2, top_right: Vector2):
 	
 	if grid_node != null:
 		grid_node.rebuild_grid()
+	
+	emit_signal("board_updated")
 
 func add_fn(path_name: String, input_fn: FuncRef, start_x: float, end_x: float, step: float):
 	if not draw_plots.has(path_name):
 		var new_path = BoardPath.new()
+		new_path.name = path_name
 		add_child(new_path)
 		draw_plots[path_name] = new_path
 		new_path.init_node(input_fn, start_x, end_x, step, self)
@@ -50,14 +56,18 @@ func transform_fn(path_name: String, new_fn: FuncRef, duration: float, tween_typ
 		var working_plt = draw_plots[path_name]
 		working_plt.transition_fn(new_fn, duration, tween_type, ease_type)
 
-func add_grid(x_setup: Vector3, y_setup: Vector3):
+func add_grid(x_setup: Vector3, y_setup: Vector3, label_bool: bool):
 	if grid_node != null:
 		grid_node.reset()
 		self.remove_child(grid_node)
 		grid_node.free()
 	
 	var new_grid = BoardGrid.new()
+	new_grid.name = "grid"
 	self.add_child(new_grid)
 	self.move_child(new_grid, 0)
 	grid_node = new_grid
 	new_grid.init_node(x_setup, y_setup, self)
+	
+	if label_bool:
+		new_grid.add_labels()

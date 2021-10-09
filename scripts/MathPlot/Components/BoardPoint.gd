@@ -7,15 +7,17 @@ var x setget set_x, get_x
 var y setget set_y, get_y
 
 var parent_bd = null
-var parent_ln = null
+var parent_component = null
 
 var is_baked = false
 
-func _init(in_x: float, in_y: float, parent_line, parent_board) -> void:
+func _init(in_x: float, in_y: float, parent_comp, parent_board) -> void:
 	x = in_x
 	y = in_y
-	parent_ln = parent_line
+	parent_component = parent_comp
 	parent_bd = parent_board
+	
+	parent_bd.connect("board_updated", self, "board_change")
 
 func board_to_global(in_pt: Vector2) -> Vector2:
 	var global_position: Vector2 = parent_bd.scale * in_pt
@@ -24,16 +26,16 @@ func board_to_global(in_pt: Vector2) -> Vector2:
 
 func set_x(in_value: float) -> void:
 	x = in_value
-	parent_ln.update()
+	parent_component.update()
 
 func set_y(in_value: float) -> void:
 	y = in_value
-	parent_ln.update()
+	parent_component.update()
 
 func set_board_position(new_v: Vector2) -> void:
 	x = new_v.x
 	y = new_v.y
-	parent_ln.update()
+	parent_component.update()
 
 func get_board_position() -> Vector2:
 	return Vector2(x, y)
@@ -58,3 +60,6 @@ func global_sq_distance(test_pt: Vector2, pos_type: int) -> float:
 	if (pos_type == position_type.BOARD):
 		global_pos = board_to_global(test_pt)
 	return self.get_position().distance_squared_to(global_pos)
+
+func board_change() -> void:
+	parent_component.update()
